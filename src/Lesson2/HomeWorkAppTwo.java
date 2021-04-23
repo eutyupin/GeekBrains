@@ -36,6 +36,6 @@ public class HomeWorkAppTwo {
         for (int i = 1; i <= a; i++) System.out.println(str);
     }
     public static boolean leapYear(int a){
-        return (a % 400 == 0 && a % 100 == 0) || (a % 100 != 0 && a % 4 == 0);
+        return (a % 400 == 0) || (a % 100 != 0 && a % 4 == 0);
     }
 }
