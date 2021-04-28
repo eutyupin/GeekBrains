@@ -19,7 +19,7 @@ public class Main {
 
     private static void print_All_Persons(Worker[] person) {
         for(int personCount = 0; personCount < person.length; personCount++){
-           if (person[personCount].getAge() > 40) person[personCount].printPrivateData();
+           if (person[personCount].getAge() > 40) System.out.println(person[personCount].toString());
         }
     }
 

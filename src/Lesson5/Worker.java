@@ -22,9 +22,9 @@ public class Worker {
         this.age = age;
         this.salary = salary;
     }
-
-    public void printPrivateData(){
-        System.out.printf("Фамилия: %s\nИмя: %s\nОтчество: %s\nДолжность: %s\nE-mail: %s\nТелефон: %s\nВозраст: %d\nЗарплата: %d\n\n",
+    @Override
+    public String toString(){
+        return String.format("Фамилия: %s\nИмя: %s\nОтчество: %s\nДолжность: %s\nE-mail: %s\nТелефон: %s\nВозраст: %d\nЗарплата: %d\n\n",
                 surname, name, lastName, position, email, phone, age, salary);
     }
 
