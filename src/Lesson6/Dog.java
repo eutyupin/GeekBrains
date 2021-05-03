@@ -28,6 +28,7 @@ public class Dog extends Animal{
     public String toString() {
         return "Собака {" +
                 "имя = '" + name + '\'' +
+                ", порода = '" + type + '\'' +
                 ", цвет = '" + color + '\'' +
                 ", возраст = " + age +
                 '}';

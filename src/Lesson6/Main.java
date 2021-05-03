@@ -16,7 +16,7 @@ public class Main {
         printCount();
     }
     public static void printCount(){
-        System.out.printf("Количество объектов Cat: %d\nКоличество объектов Dog: %d\nКоличество объектов Animal: %d\n",
+        System.out.printf("\nКоличество объектов Cat: %d\nКоличество объектов Dog: %d\nКоличество объектов Animal: %d\n",
                 Cat.catCount, Dog.dogCount, Animal.animalCount);
     }
 }
