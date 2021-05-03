@@ -1,6 +1,6 @@
 package Lesson6;
 
-public class Animal {
+public abstract class Animal {
     protected final String name;
     protected final String color;
     protected final int age;
@@ -13,28 +13,15 @@ public class Animal {
         animalCount++;
     }
 
-    public void swim(int meters){
-        System.out.println("Животное " + name + "проплыло " + meters + " метров.");
-    }
-    public void run(int meters){
-        System.out.println("Животное " + name + " пробежало " + meters + " метров.");
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public int getAge() {
-        return age;
-    }
+    public abstract void swim(int meters);
+    public abstract void run(int meters);
+    public abstract String getName();
+    public abstract String getColor();
+    public abstract  int getAge();
 
     @Override
     public String toString() {
-        return "Animal{" +
+        return "{" +
                 "name='" + name + '\'' +
                 ", color='" + color + '\'' +
                 ", age=" + age +

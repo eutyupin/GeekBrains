@@ -18,6 +18,21 @@ public class Cat extends Animal{
     }
 
     @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public String getColor() {
+        return color;
+    }
+
+    @Override
+    public int getAge() {
+        return age;
+    }
+
+    @Override
     public void swim(int meters){
       System.out.println("Кот " + name + " не умеет плавать!");
     }
@@ -25,14 +40,14 @@ public class Cat extends Animal{
     @Override
     public String toString() {
         return "Кот {" +
-                "имя = '" + name + '\'' +
+                "имя = '" + getName() + '\'' +
                 ", порода = '" + type + '\'' +
                 ", цвет = '" + color + '\'' +
                 ", возраст = " + age +
                 '}';
     }
-
     public String getType() {
         return type;
     }
+
 }

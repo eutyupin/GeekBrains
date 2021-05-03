@@ -18,6 +18,21 @@ public class Dog extends Animal{
     }
 
     @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public String getColor() {
+        return color;
+    }
+
+    @Override
+    public int getAge() {
+        return age;
+    }
+
+    @Override
     public void swim(int meters){
         int MAX_SWIM_DISTANCE = 10;
         if(meters <= MAX_SWIM_DISTANCE) System.out.printf("Собака %s проплыла %d метров\n", name, meters);
