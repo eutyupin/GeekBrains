@@ -176,7 +176,7 @@ public class HomeWorkFour {
         // проверка строк
         for (int i = 0; i < SIZE; i++) {
             check = 0;
-            for (int k = 0; k < 2; k++) targetCell[k] = 0;
+            for (int k = 0; k < ;targetCell.length; k++) targetCell[k] = 0;
             for (int j = 0; j < SIZE; j++) {
                 if (map[i][j] == DOT_X) {
                     targetCell[0] = i;
