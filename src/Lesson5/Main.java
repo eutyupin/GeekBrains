@@ -17,7 +17,7 @@ public class Main {
         print_All_Persons(person);
     }
 
-    private static void printAllPersons(Worker[] person) {
+    private static void print_All_Persons(Worker[] person) {
         for(int personCount = 0; personCount < person.length; personCount++){
            if (person[personCount].getAge() > 40) System.out.println(person[personCount]);
         }
