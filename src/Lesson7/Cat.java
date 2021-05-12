@@ -3,7 +3,7 @@ package Lesson7;
 public class Cat {
     private String name;
     private  int appetite;
-    private boolean well_fed;
+    private boolean wellFed;
     public Cat(String name, int appetite) {
         this.name = name;
         this.appetite = appetite;
