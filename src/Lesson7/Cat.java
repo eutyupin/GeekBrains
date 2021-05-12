@@ -10,7 +10,7 @@ public class Cat {
         this.well_fed = false;
     }
     public void eat(Plate p) {
-        if (well_fed == false && p.getFood() >= appetite) {
+        if (!well_fed && p.getFood() >= appetite) {
             p.decreaseFood(appetite);
             well_fed = true;
             System.out.println("Кот " + name + " наелся, съел " + appetite);
