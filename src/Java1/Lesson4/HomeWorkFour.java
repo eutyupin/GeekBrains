@@ -1,10 +1,8 @@
-package Lesson4;
+package Java1.Lesson4;
 
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
-
-import static com.sun.deploy.config.OSType.isWin;
 
 public class HomeWorkFour {
     private static final int SIZE = 5;

@@ -1,4 +1,4 @@
-package Lesson6;
+package Java1.Lesson6;
 
 public class Dog extends Animal{
     private final String type;
