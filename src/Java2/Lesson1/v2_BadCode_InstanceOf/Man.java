@@ -1,29 +1,17 @@
-package Java2.Lesson1;
+package Java2.Lesson1.v2_BadCode_InstanceOf;
 
-public class Robot implements Movements{
+public class Man implements Movements {
     private final String NAME;
-    private final OS OS;
-    private final boolean CAN_RUN;
-    private final boolean CAN_JUMP;
+    private final int AGE;
     private final double MAX_RUN_DISTANCE;
     private final double MAX_JUMP_HEIGHT;
     private boolean nextStep = true;
 
-    public Robot(String name, OS OS, boolean can_run, boolean can_jump, double max_run_distance, double max_jump_height) {
+    public Man(String name, int age, double max_run_distance, double max_jump_height) {
         this.NAME = name;
-        this.OS = OS;
-        CAN_RUN = can_run;
-        CAN_JUMP = can_jump;
-        if(!can_run) MAX_RUN_DISTANCE = 0; else MAX_RUN_DISTANCE = max_run_distance;
-        if(!can_jump) MAX_JUMP_HEIGHT = 0; else MAX_JUMP_HEIGHT = max_jump_height;
-    }
-    public Robot(String name, OS OS) {
-        this.NAME = name;
-        this.OS = OS;
-        CAN_RUN = false;
-        CAN_JUMP = false;
-        MAX_RUN_DISTANCE = 0;
-        MAX_JUMP_HEIGHT = 0;
+        this.AGE = age;
+        this.MAX_RUN_DISTANCE = max_run_distance;
+        this.MAX_JUMP_HEIGHT = max_jump_height;
     }
 
     @Override
@@ -59,15 +47,15 @@ public class Robot implements Movements{
 
     @Override
     public String toString() {
-        return "Робот " + NAME + " ОС " + OS;
+        return "Человек " + NAME + ", возраст " + AGE;
     }
 
     public String getName() {
         return NAME;
     }
 
-    public OS getOS() {
-        return OS;
+    public int getAge() {
+        return AGE;
     }
 
     public double getMAX_RUN_DISTANCE() {

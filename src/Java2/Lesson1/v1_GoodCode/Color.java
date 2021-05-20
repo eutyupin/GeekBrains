@@ -1,4 +1,4 @@
-package Java2.Lesson1;
+package Java2.Lesson1.v1_GoodCode;
 
 public enum Color {
     WHITE("Белый"),

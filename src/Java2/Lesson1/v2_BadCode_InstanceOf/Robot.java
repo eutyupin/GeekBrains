@@ -1,29 +1,17 @@
-package Java2.Lesson1;
+package Java2.Lesson1.v2_BadCode_InstanceOf;
 
-public class Cat implements Movements{
+public class Robot implements Movements{
     private final String NAME;
-    private final Color COLOR;
-    private final boolean CAN_RUN;
-    private final boolean CAN_JUMP;
+    private final OS OS;
     private final double MAX_RUN_DISTANCE;
     private final double MAX_JUMP_HEIGHT;
     private boolean nextStep = true;
 
-    public Cat(String name, Color color, boolean can_run, boolean can_jump, double max_run_distance, double max_jump_height) {
+    public Robot(String name, OS OS, double max_run_distance, double max_jump_height) {
         this.NAME = name;
-        this.COLOR = color;
-        CAN_RUN = can_run;
-        CAN_JUMP = can_jump;
-        if(!can_run) MAX_RUN_DISTANCE = 0; else MAX_RUN_DISTANCE = max_run_distance;
-        if(!can_jump) MAX_JUMP_HEIGHT = 0; else MAX_JUMP_HEIGHT = max_jump_height;
-    }
-    public Cat(String name, Color color) {
-        this.NAME = name;
-        this.COLOR = color;
-        CAN_RUN = false;
-        CAN_JUMP = false;
-        MAX_RUN_DISTANCE = 0;
-        MAX_JUMP_HEIGHT = 0;
+        this.OS = OS;
+        this.MAX_RUN_DISTANCE = max_run_distance;
+        this.MAX_JUMP_HEIGHT = max_jump_height;
     }
 
     @Override
@@ -59,15 +47,15 @@ public class Cat implements Movements{
 
     @Override
     public String toString() {
-        return "Кот " + NAME + ", цвет " + COLOR;
+        return "Робот " + NAME + " ОС " + OS;
     }
 
     public String getName() {
         return NAME;
     }
 
-    public Color getColor() {
-        return COLOR;
+    public OS getOS() {
+        return OS;
     }
 
     public double getMAX_RUN_DISTANCE() {

@@ -1,4 +1,4 @@
-package Java2.Lesson1;
+package Java2.Lesson1.v2_BadCode_InstanceOf;
 
 public class Treadmill extends Barrier {
     private final double LENGTH;

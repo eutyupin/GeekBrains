@@ -1,4 +1,4 @@
-package Java2.Lesson1;
+package Java2.Lesson1.v2_BadCode_InstanceOf;
 
 public class Wall extends  Barrier {
     private final double HEIGHT;

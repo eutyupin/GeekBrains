@@ -1,30 +1,17 @@
-package Java2.Lesson1;
+package Java2.Lesson1.v2_BadCode_InstanceOf;
 
-public class Man implements Movements {
+public class Cat implements Movements{
     private final String NAME;
-    private final int AGE;
-    private final boolean CAN_RUN;
-    private final boolean CAN_JUMP;
+    private final Color COLOR;
     private final double MAX_RUN_DISTANCE;
     private final double MAX_JUMP_HEIGHT;
     private boolean nextStep = true;
 
-    public Man(String name, int age, boolean can_run, boolean can_jump, double max_run_distance, double max_jump_height) {
+    public Cat(String name, Color color, double max_run_distance, double max_jump_height) {
         this.NAME = name;
-        this.AGE = age;
-        CAN_RUN = can_run;
-        CAN_JUMP = can_jump;
-        if(!can_run) MAX_RUN_DISTANCE = 0; else MAX_RUN_DISTANCE = max_run_distance;
-        if(!can_jump) MAX_JUMP_HEIGHT = 0; else MAX_JUMP_HEIGHT = max_jump_height;
-    }
-
-    public Man(String name, int age) {
-        this.NAME = name;
-        this.AGE = age;
-        CAN_RUN = false;
-        CAN_JUMP = false;
-        MAX_RUN_DISTANCE = 0;
-        MAX_JUMP_HEIGHT = 0;
+        this.COLOR = color;
+        this.MAX_RUN_DISTANCE = max_run_distance;
+        this.MAX_JUMP_HEIGHT = max_jump_height;
     }
 
     @Override
@@ -60,15 +47,15 @@ public class Man implements Movements {
 
     @Override
     public String toString() {
-        return "Человек " + NAME + ", возраст " + AGE;
+        return "Кот " + NAME + ", цвет " + COLOR;
     }
 
     public String getName() {
         return NAME;
     }
 
-    public int getAge() {
-        return AGE;
+    public Color getColor() {
+        return COLOR;
     }
 
     public double getMAX_RUN_DISTANCE() {
