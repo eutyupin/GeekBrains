@@ -12,6 +12,7 @@ public class Wall extends  Barrier {
         return ("Стена высотой " + HEIGHT + "м");
     }
 
+    @Override
     public double getHeight() {
         return HEIGHT;
     }

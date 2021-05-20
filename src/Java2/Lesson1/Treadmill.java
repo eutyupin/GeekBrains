@@ -17,6 +17,7 @@ public class Treadmill extends Barrier {
         return ("Беговая дорожка длиной " + LENGTH + "м");
     }
 
+    @Override
     public double getLength() {
         return LENGTH;
     }

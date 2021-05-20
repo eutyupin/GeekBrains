@@ -21,23 +21,14 @@ public class Main {
     public static void startMovings() {
         for (Object competitor : competitors) {
             for (Barrier value : barrier) {
-                if (competitor instanceof Man) {
-                    Man tempObject = (Man) competitor;
-                    if (tempObject.isNextStep()) {
-                        tempObject.makeMovement(value);
-                    }
+                if (competitor instanceof Man && ((Man) competitor).isNextStep()) {
+                    ((Man) competitor).makeMovement(value);
                 }
-                if (competitor instanceof Cat) {
-                    Cat tempObject = (Cat) competitor;
-                    if (tempObject.isNextStep()) {
-                        tempObject.makeMovement(value);
-                    }
+                if (competitor instanceof Cat && ((Cat) competitor).isNextStep()) {
+                    ((Cat) competitor).makeMovement(value);
                 }
-                if (competitor instanceof Robot) {
-                    Robot tempObject = (Robot) competitor;
-                    if (tempObject.isNextStep()) {
-                        tempObject.makeMovement(value);
-                    }
+                if (competitor instanceof Robot && ((Robot) competitor).isNextStep()) {
+                    ((Robot) competitor).makeMovement(value);
                 }
             }
         }
