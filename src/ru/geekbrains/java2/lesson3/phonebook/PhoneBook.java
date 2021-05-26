@@ -5,17 +5,15 @@ import java.util.HashSet;
 import java.util.Locale;
 
 public class PhoneBook {
-    private HashMap<String, HashSet<String>> phonebook = new HashMap<String, HashSet<String>>();
+    private HashMap<String, HashSet<String>> phonebook = new HashMap<>();
 
 
     public void add(String surname, String phone) {
         HashSet<String> phones = new HashSet<>();
-        for (String item : phonebook.keySet()) {
-            if (item.equals(surname.toUpperCase())) {
-                phones.addAll(phonebook.get(item));
+            if(phonebook.containsKey(surname.toUpperCase())) {
+                phones.addAll(phonebook.get(surname.toUpperCase()));
                 phones.add(phone);
             }
-        }
         if(phones.isEmpty()) phones.add(phone);
         phonebook.put(surname.toUpperCase(), phones);
     }

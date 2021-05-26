@@ -12,7 +12,7 @@ public class Main {
         phonebook.add("Sidorov","+79502558565");
         phonebook.add("PeTroV","+79999999999");
         phonebook.add("Volkov","+79289652322");
-        getFromPhoneBook("sidorov");
+        getFromPhoneBook("ivanov");
     }
 
     public static void getFromPhoneBook(String surname) {

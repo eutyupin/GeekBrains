@@ -25,14 +25,12 @@ public class MainFirstTask {
 
     private static LinkedHashMap<String, Integer> wordsRepeatCount(ArrayList<String> receivedList) {
         LinkedHashMap<String, Integer> tempMap = new LinkedHashMap<>();
-        ListIterator<String> iterator = receivedList.listIterator();
             for (String item : receivedList) {
-                int count = 0;
-                for (String s : receivedList) {
-                    if (s.equals(item)) count++;
-                }
+                int count = tempMap.getOrDefault(item,0);
+                System.out.println(count);
+                count++;
                 tempMap.put(item,count);
-            }
+                }
         return tempMap;
     }
 
