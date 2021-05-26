@@ -23,7 +23,6 @@ public class PhoneBook {
        if(phonebook.containsKey(surname.toUpperCase())) {
            tmpMap.put(surname.toUpperCase(), phonebook.get(surname.toUpperCase()));
        } else throw new NoSuchSurnameException("Нет такой записи в телефонном справочнике");
-//       else tmpMap.put("Нет такого человека в телефонном справочнике", null); //это если без исключения
        return tmpMap;
     }
 }
