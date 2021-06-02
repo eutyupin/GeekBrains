@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 
-public class Main extends Application {
+public class MainChat extends Application {
     private ArrayList<String> users = new ArrayList<>();
 
     @Override
