@@ -41,10 +41,18 @@ public class Main {
         System.arraycopy(bigArray,part,partedArraySecond,0,part);
 
         Thread threadFirst = new Thread( () -> {
-            loopFilling(partedArrayFirst);
+            try {
+                loopFilling(partedArrayFirst);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         });
         Thread threadSecond = new Thread(() -> {
-            loopFilling(partedArraySecond);
+            try {
+                loopFilling(partedArraySecond);
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
         });
 
         System.arraycopy(partedArrayFirst,0,bigArray,0,part);
