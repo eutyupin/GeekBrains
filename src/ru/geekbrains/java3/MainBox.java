@@ -16,6 +16,15 @@ public class MainBox {
         boxAddFruits(appleBox2, 12, new Apple());
         orangeBox.pourFruits(appleBox2);
 
+        System.out.println(orangeBox.getWeight());
+        System.out.println(orangeBox2.getWeight());
+        System.out.println(appleBox.getWeight());
+        System.out.println(appleBox2.getWeight());
+
+        System.out.println(orangeBox.compare(appleBox));
+        boxAddFruits(appleBox, 32, new Apple());
+        System.out.println(orangeBox.compare(appleBox));
+
 
 
     }
