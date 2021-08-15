@@ -126,8 +126,7 @@ public class Controller {
             ClientMessageCommandData data = (ClientMessageCommandData) command.getData();
             if (data.getFlag() == Flag.PRIVATE) privateMessageProcess(data.getSender(), data.getMessage());
             else if (data.getFlag() == Flag.ALL) allUsersMessage(data.getSender(), data.getMessage());
-        }
-        if (command.getType() == CommandType.UPDATE_USER_LIST) {
+        } else if (command.getType() == CommandType.UPDATE_USER_LIST) {
             UpdateUserListCommandData data = (UpdateUserListCommandData) command.getData();
             userListUpdate(data.getUsers());
         }
