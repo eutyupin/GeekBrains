@@ -1,4 +1,4 @@
-package ru.geekbrains.java3;
+package ru.geekbrains.java3.lesson1;
 
 public class Orange implements Fruit{
     private float weight = 1.5f;

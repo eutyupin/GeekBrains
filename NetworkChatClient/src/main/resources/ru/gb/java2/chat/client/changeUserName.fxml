@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="95.0" prefWidth="319.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.gb.java2.chat.client.controllers.ChangeUserNameDialog">
+   <children>
+      <TextField fx:id="userNameField" layoutX="14.0" layoutY="27.0" prefHeight="25.0" prefWidth="289.0" />
+      <Button fx:id="okButton" layoutX="173.0" layoutY="58.0" mnemonicParsing="false" onAction="#okAction" prefHeight="25.0" prefWidth="58.0" text="ОК" />
+      <Label layoutX="14.0" layoutY="6.0" text="Введите новое имя пользователя" />
+      <Button fx:id="cancelButton" layoutX="242.0" layoutY="58.0" mnemonicParsing="false" onAction="#cancelAction" text="Отмена" />
+   </children>
+</AnchorPane>

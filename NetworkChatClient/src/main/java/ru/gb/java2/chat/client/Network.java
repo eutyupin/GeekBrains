@@ -7,7 +7,7 @@ import java.util.function.Consumer;
 
 public class Network {
 
-    private static final int SERVER_PORT = 8189;
+    private static final int SERVER_PORT = 8010;
     private static final String SERVER_HOST = "localhost";
 
     private final String host;
@@ -81,8 +81,8 @@ public class Network {
         try {
             command = (Command) socketInput.readObject();
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
             System.err.println("Failed to read command class");
+            e.printStackTrace();
         }
         return command;
     }
@@ -95,7 +95,7 @@ public class Network {
         }
     }
 
-    public void sendAuthMessage(String login, String password) throws IOException {
+    public void sendAuthCommand(String login, String password) throws IOException {
         sendCommand(Command.authCommand(login, password));
     }
     public void setMainChat(MainChat mainChat) {

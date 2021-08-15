@@ -35,7 +35,6 @@ public class ClientHandler {
             try {
                 waitUserAuthorization(TIMEOUT_USER_AUTHORIZATION_SECONDS);
                 authentication();
-                server.sendUserList();
                 readMessages();
             } catch (IOException | ClassNotFoundException e) {
                 System.err.println("Failed process message from client");
@@ -75,16 +74,17 @@ public class ClientHandler {
                 password = data.getPassword();
             }
                 userName = server.getAuthService().getUserNameByLoginAndPassword(login, password);
-                if (userName == null) {
+                if (userName == null || userName == "") {
                     sendCommand(Command.errorCommand(USER_ERROR_COMMAND));
                 } else if(userAlreadyExist(userName)) {
                     sendCommand(Command.errorCommand(USER_ALREADY_EXIST));
                 } else {
                     sendCommand(Command.authOKCommand(userName));
-                    server.subscribe(this);
                     userIsAuthorized = true;
+                    server.subscribe(this);
                     return;
                 }
+
             }
     }
     /* таймаут отключения от сервера юзера, который не залогинился */
@@ -116,14 +116,17 @@ public class ClientHandler {
             switch (command.getType()) {
                 case PRIVATE_MESSAGE: {
                     PrivateMessageCommandData data = (PrivateMessageCommandData) command.getData();
-                    String receiver = data.getReceiver();
-                    String privateMessage = data.getMessage();
-                    server.sendPrivateMessage(this, receiver, privateMessage);
+                    server.sendPrivateMessage(this, data.getReceiver(), data.getMessage());
                     break; }
                 case PUBLIC_MESSAGE: {
                     PublicMessageCommandData data = (PublicMessageCommandData) command.getData();
                     processMessage(data.getMessage());
                     break; }
+                case CHANGE_USER_NAME: {
+                    ChangeUserNameCommand data = (ChangeUserNameCommand) command.getData();
+                    Command answer = server.getAuthService().changeUserName(data.getOldUserName(),data.getNewUserName());
+                    server.sendCommand(this, answer);
+                }
             }
         }
     }

@@ -1,4 +1,4 @@
-package ru.geekbrains.java3;
+package ru.geekbrains.java3.lesson1;
 
 import java.util.ArrayList;
 
@@ -39,7 +39,7 @@ public class Box<E extends Fruit> {
         return boxContent;
     }
 
-    public boolean compare(Box comparedBox) {
+    public boolean compare(Box<?> comparedBox) {
         if (comparedBox.getWeight() == this.getWeight()) return true;
         else return false;
     }
@@ -52,7 +52,7 @@ public class Box<E extends Fruit> {
         return boxName;
     }
 
-    public void pourFruits(Box destinationBox) {
+    public void pourFruits(Box<E> destinationBox) {
         if(destinationBox.currentFruit.getType() == currentFruit.getType()) {
             boxContent.addAll(boxContent.size()-1, destinationBox.getBoxFruits());
             destinationBox.boxClear();
