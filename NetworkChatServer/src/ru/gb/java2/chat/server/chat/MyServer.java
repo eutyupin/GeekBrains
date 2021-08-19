@@ -17,10 +17,10 @@ public class MyServer {
         try (ServerSocket serverSocket = new ServerSocket(port)){
             System.out.println("Server has been started");
             authService = new AuthService();
-
             while (true) {
                 waitAndProcessNewClientConnection(serverSocket);
             }
+
         }catch (IOException e) {
             System.err.println("Failed to bind port" + port);
             e.printStackTrace();
@@ -35,6 +35,10 @@ public class MyServer {
         for (ClientHandler client : clients) {
             client.sendCommand(Command.updateUserListCommand(users));
         }
+    }
+
+    public void sendCommand(ClientHandler client, Command command) {
+
     }
 
     private void waitAndProcessNewClientConnection(ServerSocket serverSocket) throws IOException {
@@ -72,6 +76,7 @@ public class MyServer {
     public synchronized void subscribe(ClientHandler clientHandler) throws IOException {
         clients.add(clientHandler);
         sendUserList();
+
     }
     public synchronized void unsubscribe(ClientHandler clientHandler) throws IOException {
         clients.remove(clientHandler);

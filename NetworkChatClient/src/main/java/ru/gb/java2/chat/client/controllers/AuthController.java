@@ -14,10 +14,7 @@ import ru.gb.java2.chat.clientserver.Command;
 import ru.gb.java2.chat.clientserver.commands.AuthOKCommandData;
 import ru.gb.java2.chat.clientserver.commands.CommandType;
 import ru.gb.java2.chat.clientserver.commands.ErrorCommandData;
-import ru.gb.java2.chat.clientserver.commands.UpdateUserListCommandData;
-
 import java.io.IOException;
-import java.util.function.Consumer;
 
 public class AuthController {
     private static final String INVALID_CREDENTIALS = "Некоректный ввод данных";
@@ -49,7 +46,7 @@ public class AuthController {
             return;
         }
         try {
-            network.sendAuthMessage(login, password);
+            network.sendAuthCommand(login, password);
         } catch (IOException e) {
             mainChat.showNetworkErrorDialog("Ошибка передачи данных по сети", "Не удалось отправить сообщение!");
             e.printStackTrace();

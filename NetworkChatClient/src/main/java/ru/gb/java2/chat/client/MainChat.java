@@ -13,6 +13,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import ru.gb.java2.chat.client.controllers.AuthController;
+import ru.gb.java2.chat.client.controllers.ChangeUserNameDialog;
 import ru.gb.java2.chat.client.controllers.Controller;
 
 import java.io.IOException;
@@ -26,10 +27,13 @@ public class MainChat extends Application {
     private Stage primaryStage;
     private Network network;
     private Stage authStage;
+
     private String currentUserName;
     private boolean authorizedUser = false;
-    Controller controller;
-    AuthController authController;
+    private Controller controller;
+    private AuthController authController;
+    private Stage userNameStage;
+    private ChangeUserNameDialog changeUserNameController;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -42,6 +46,7 @@ public class MainChat extends Application {
         primaryStage.show();
         controller = fxmlLoader.getController();
         controller.setMainChat(this);
+        newUserNameDialogCreate();
         globalConnect();
     }
     public void globalConnect() throws IOException {
@@ -58,6 +63,7 @@ public class MainChat extends Application {
         authStage.initOwner(primaryStage);
         authStage.initModality(Modality.WINDOW_MODAL);
         authStage.setScene(new Scene(authDialogPanel));
+        authStage.setResizable(false);
         authController = authLoader.getController();
         authController.setMainChat(this);
         authController.setNetwork(network);
@@ -111,6 +117,18 @@ public class MainChat extends Application {
         primaryStage.setTitle("NetChat: " + currentUserName);
     }
 
+    public void newUserNameDialogCreate() throws IOException {
+        FXMLLoader changeUserNameLoader = new FXMLLoader();
+        changeUserNameLoader.setLocation(MainChat.class.getResource("changeUserName.fxml"));
+        AnchorPane changeUserNamePane = changeUserNameLoader.load();
+        userNameStage = new Stage();
+        userNameStage.initOwner(primaryStage);
+        userNameStage.initModality(Modality.WINDOW_MODAL);
+        userNameStage.setScene(new Scene(changeUserNamePane));
+        userNameStage.setResizable(false);
+        changeUserNameController = changeUserNameLoader.getController();
+        changeUserNameController.setMainChat(this);
+    }
     public void showNetworkErrorDialog(String type, String details) {
         showErrorDialog(NETWORK_ERROR_TITLE, type, details);
     }
@@ -133,4 +151,13 @@ public class MainChat extends Application {
     public Stage getPrimaryStage() {
         return primaryStage;
     }
+
+    public Stage getChangeUserNameDialog() {
+        return  userNameStage;
+    }
+
+    public void changeNameSetNetwork() {
+        changeUserNameController.setNetwork(network);
+    }
 }
+

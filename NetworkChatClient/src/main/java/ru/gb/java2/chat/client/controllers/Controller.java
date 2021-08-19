@@ -4,20 +4,22 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import ru.gb.java2.chat.client.MainChat;
 import ru.gb.java2.chat.client.Network;
+import ru.gb.java2.chat.clientserver.Command;
 import ru.gb.java2.chat.clientserver.commands.ClientMessageCommandData;
 import ru.gb.java2.chat.clientserver.commands.CommandType;
 import ru.gb.java2.chat.clientserver.commands.Flag;
 import ru.gb.java2.chat.clientserver.commands.UpdateUserListCommandData;
-
 import java.io.IOException;
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -29,8 +31,6 @@ public class Controller {
     private String privateUser;
     private MainChat mainChat;
     @FXML
-    private Label currentUserLabel;
-    @FXML
     public ListView userList;
     @FXML
     private TextArea chatField;
@@ -40,6 +40,7 @@ public class Controller {
     private Button sendButton;
     private Network network;
     private MainChat application;
+    private ChangeUserNameDialog changeUserNameDialog;
 
     @FXML
     private void sendMessage(ActionEvent actionEvent) {
@@ -56,10 +57,10 @@ public class Controller {
             messageField.clear();
             return;
         }
-        String receiver;
+        String receiver = TO_ALL_USERS;
         if (!userList.getSelectionModel().isEmpty()) {
             receiver = userList.getSelectionModel().getSelectedItem().toString();
-        } else {receiver = currentUserLabel.getText();}
+        }
         if(receiver.equals(TO_ALL_USERS)) {
             try {
                 network.sendMessage(message);
@@ -91,8 +92,12 @@ public class Controller {
 
     @FXML
     private void choiceUser(MouseEvent mouseEvent) {
-        currentUserLabel.setText(userList.getSelectionModel().getSelectedItem().toString());
-        privateUser = userList.getSelectionModel().getSelectedItem().toString();
+        try {
+            privateUser = userList.getSelectionModel().getSelectedItem().toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void messageFieldKeyPressed(KeyEvent keyEvent) {
@@ -112,15 +117,19 @@ public class Controller {
     public void setNetwork(Network network){
         this.network = network;
         network.waitMessages(command -> Platform.runLater(() -> {
-            if (command.getType() == CommandType.CLIENT_MESSAGE) {
-                ClientMessageCommandData data = (ClientMessageCommandData) command.getData();
-                if (data.getFlag() == Flag.PRIVATE) privateMessageProcess(data.getSender(), data.getMessage());
-                else if (data.getFlag() == Flag.ALL) allUsersMessage(data.getSender(), data.getMessage());
-            } else if (command.getType() == CommandType.UPDATE_USER_LIST) {
-                UpdateUserListCommandData data = (UpdateUserListCommandData) command.getData();
-                userListUpdate(data.getUsers());
-            }
+            serverCommandCheck(command);
         }));
+    }
+
+    private void serverCommandCheck(Command command) {
+        if (command.getType() == CommandType.CLIENT_MESSAGE) {
+            ClientMessageCommandData data = (ClientMessageCommandData) command.getData();
+            if (data.getFlag() == Flag.PRIVATE) privateMessageProcess(data.getSender(), data.getMessage());
+            else if (data.getFlag() == Flag.ALL) allUsersMessage(data.getSender(), data.getMessage());
+        } else if (command.getType() == CommandType.UPDATE_USER_LIST) {
+            UpdateUserListCommandData data = (UpdateUserListCommandData) command.getData();
+            userListUpdate(data.getUsers());
+        }
     }
 
     private void allUsersMessage(String sender, String message) {
@@ -146,11 +155,16 @@ public class Controller {
         this.application = application;
     }
 
-    public void reClick(ActionEvent actionEvent) throws IOException {}
-
+    @FXML
     public void ReClick(ActionEvent actionEvent) throws IOException {
         network.close();
         mainChat.globalConnect();
+    }
+
+    @FXML
+    public void changeNameAction(ActionEvent actionEvent) {
+        mainChat.changeNameSetNetwork();
+        mainChat.getChangeUserNameDialog().showAndWait();
     }
 }
 
