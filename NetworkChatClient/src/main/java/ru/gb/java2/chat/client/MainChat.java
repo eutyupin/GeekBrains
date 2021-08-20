@@ -132,9 +132,11 @@ public class MainChat extends Application {
         changeUserNameController = changeUserNameLoader.getController();
         changeUserNameController.setMainChat(this);
     }
+
     public void showNetworkErrorDialog(String type, String details) {
         showErrorDialog(NETWORK_ERROR_TITLE, type, details);
     }
+
     public void showAuthErrorDialog(String type, String details) {
         showErrorDialog(AUTH_ERROR_TITLE, type, details);
     }
