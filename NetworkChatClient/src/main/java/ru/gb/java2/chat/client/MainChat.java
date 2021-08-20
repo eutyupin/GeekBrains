@@ -16,6 +16,7 @@ import ru.gb.java2.chat.client.controllers.ChangeUserNameDialog;
 import ru.gb.java2.chat.client.controllers.Controller;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class MainChat extends Application {
@@ -175,7 +176,7 @@ public class MainChat extends Application {
         }
         controller.addHistoryToChat(fillMessageList());
         try {
-            writeData = new BufferedWriter(new FileWriter(historyFile, true));
+            writeData = new BufferedWriter(new FileWriter(historyFile, StandardCharsets.UTF_8, true));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -189,7 +190,7 @@ public class MainChat extends Application {
         String tmpLine;
         ArrayList<String> tmpList = new ArrayList<>();
         try {
-            BufferedReader readData = new BufferedReader(new FileReader(historyFile));
+            BufferedReader readData = new BufferedReader(new FileReader(historyFile, StandardCharsets.UTF_8));
             while ((tmpLine = readData.readLine()) != null) {
                 tmpList.add(tmpLine);
             }
