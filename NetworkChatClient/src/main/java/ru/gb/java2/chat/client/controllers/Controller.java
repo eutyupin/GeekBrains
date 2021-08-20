@@ -104,6 +104,7 @@ public class Controller {
         chatField.appendText(System.lineSeparator());
         appendHistoryToFile(System.lineSeparator());
         messageField.clear();
+        mainChat.writeData.flush();
     }
 
     @FXML
@@ -195,7 +196,7 @@ public class Controller {
 
     public void addHistoryToChat(ArrayList<String> messageList) {
         for (String line: messageList) {
-            chatField.appendText(line + System.lineSeparator());
+          if(messageList.size() > 0) chatField.appendText(line + System.lineSeparator());
         }
     }
 
@@ -203,7 +204,7 @@ public class Controller {
 
     private void appendHistoryToFile(String messageLine) {
         try {
-           mainChat.writeData.write(messageLine.getBytes());
+           mainChat.writeData.append(messageLine);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

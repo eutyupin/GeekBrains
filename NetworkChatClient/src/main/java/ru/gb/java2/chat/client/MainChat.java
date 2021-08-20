@@ -7,7 +7,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -18,7 +17,6 @@ import ru.gb.java2.chat.client.controllers.Controller;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Optional;
 
 public class MainChat extends Application {
 
@@ -29,7 +27,7 @@ public class MainChat extends Application {
     private Network network;
     private Stage authStage;
     public File historyFile;
-    public FileOutputStream writeData;
+    public BufferedWriter writeData;
     private String currentUserName;
     private boolean authorizedUser = false;
     private Controller controller;
@@ -177,8 +175,10 @@ public class MainChat extends Application {
         }
         controller.addHistoryToChat(fillMessageList());
         try {
-            writeData = new FileOutputStream(historyFile, true);
+            writeData = new BufferedWriter(new FileWriter(historyFile, true));
         } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
