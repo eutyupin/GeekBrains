@@ -16,7 +16,8 @@ import ru.gb.java2.chat.client.controllers.AuthController;
 import ru.gb.java2.chat.client.controllers.ChangeUserNameDialog;
 import ru.gb.java2.chat.client.controllers.Controller;
 
-import java.io.IOException;
+import java.io.*;
+import java.util.ArrayList;
 import java.util.Optional;
 
 public class MainChat extends Application {
@@ -27,7 +28,8 @@ public class MainChat extends Application {
     private Stage primaryStage;
     private Network network;
     private Stage authStage;
-
+    public File historyFile;
+    public FileOutputStream writeData;
     private String currentUserName;
     private boolean authorizedUser = false;
     private Controller controller;
@@ -48,6 +50,8 @@ public class MainChat extends Application {
         controller.setMainChat(this);
         newUserNameDialogCreate();
         globalConnect();
+        loadHistoryFromFile();
+        closeOutputStreamOnExit();
     }
     public void globalConnect() throws IOException {
         connectToServer(controller);
@@ -158,6 +162,62 @@ public class MainChat extends Application {
 
     public void changeNameSetNetwork() {
         changeUserNameController.setNetwork(network);
+    }
+
+    /* Загрузка истории из файла*/
+
+    private void loadHistoryFromFile() {
+        historyFile = new File(currentUserName + "_history.txt");
+        if(! historyFile.exists()){
+            try {
+                historyFile.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        controller.addHistoryToChat(fillMessageList());
+        try {
+            writeData = new FileOutputStream(historyFile, true);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /* возвращаем заполненный последними 100 строками истории эррэй лист */
+
+    private ArrayList<String> fillMessageList() {
+        String tmpLine;
+        ArrayList<String> tmpList = new ArrayList<>();
+        try {
+            BufferedReader readData = new BufferedReader(new FileReader(historyFile));
+            while ((tmpLine = readData.readLine()) != null) {
+                tmpList.add(tmpLine);
+            }
+            readData.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if(tmpList.size() > 100) {
+            for (int i = 0; i < (tmpList.size() - 100); i++) tmpList.remove(0);
+        }
+        return tmpList;
+    }
+    /* конец загрузки истории*/
+
+    /* создаем событие закрытия FileOutputStream при закрытие программы */
+
+    private void closeOutputStreamOnExit() {
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            public void handle(WindowEvent we) {
+                try {
+                    writeData.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 }
 

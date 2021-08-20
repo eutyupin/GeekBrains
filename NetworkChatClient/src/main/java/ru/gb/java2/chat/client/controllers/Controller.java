@@ -20,6 +20,10 @@ import ru.gb.java2.chat.clientserver.commands.ClientMessageCommandData;
 import ru.gb.java2.chat.clientserver.commands.CommandType;
 import ru.gb.java2.chat.clientserver.commands.Flag;
 import ru.gb.java2.chat.clientserver.commands.UpdateUserListCommandData;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -40,18 +44,22 @@ public class Controller {
     private Button sendButton;
     private Network network;
     private MainChat application;
+    @FXML
     private ChangeUserNameDialog changeUserNameDialog;
-
     @FXML
     private void sendMessage(ActionEvent actionEvent) {
-        sendMessageAction();
+        try {
+            sendMessageAction();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setMainChat(MainChat mainChat) {
         this.mainChat = mainChat;
     }
 
-    private void sendMessageAction() {
+    private void sendMessageAction() throws IOException {
         String message = messageField.getText().trim();
         if (message.isEmpty()) {
             messageField.clear();
@@ -74,19 +82,27 @@ public class Controller {
                 e.printStackTrace();
             }
         }
-        chatFieldAddMessage("Я -> " + receiver, messageField.getText().trim());
+            chatFieldAddMessage("Я -> " + receiver, messageField.getText().trim());
+
     }
 
-    private void chatFieldAddMessage(String sender, String message) {
+    private void chatFieldAddMessage(String sender, String message) throws IOException {
         chatField.appendText(DateFormat.getDateTimeInstance().format(new Date()));
+        appendHistoryToFile(DateFormat.getDateTimeInstance().format(new Date()));
         chatField.appendText(System.lineSeparator());
+        appendHistoryToFile(System.lineSeparator());
         if (sender != null) {
             chatField.appendText(sender + ":");
+            appendHistoryToFile(sender + ":");
             chatField.appendText(System.lineSeparator());
+            appendHistoryToFile(System.lineSeparator());
         }
         chatField.appendText(message);
+        appendHistoryToFile(message);
         chatField.appendText(System.lineSeparator());
+        appendHistoryToFile(System.lineSeparator());
         chatField.appendText(System.lineSeparator());
+        appendHistoryToFile(System.lineSeparator());
         messageField.clear();
     }
 
@@ -108,7 +124,11 @@ public class Controller {
                     messageField.appendText(System.lineSeparator());
                 } else {
                     if(!messageField.getText().isEmpty()){
-                        sendMessageAction();
+                        try {
+                            sendMessageAction();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             }
@@ -117,11 +137,15 @@ public class Controller {
     public void setNetwork(Network network){
         this.network = network;
         network.waitMessages(command -> Platform.runLater(() -> {
-            serverCommandCheck(command);
+            try {
+                serverCommandCheck(command);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }));
     }
 
-    private void serverCommandCheck(Command command) {
+    private void serverCommandCheck(Command command) throws IOException {
         if (command.getType() == CommandType.CLIENT_MESSAGE) {
             ClientMessageCommandData data = (ClientMessageCommandData) command.getData();
             if (data.getFlag() == Flag.PRIVATE) privateMessageProcess(data.getSender(), data.getMessage());
@@ -132,11 +156,11 @@ public class Controller {
         }
     }
 
-    private void allUsersMessage(String sender, String message) {
+    private void allUsersMessage(String sender, String message) throws IOException {
         chatFieldAddMessage(sender + " -> Все пользователи", message);
     }
 
-    private void privateMessageProcess(String sender, String message) {
+    private void privateMessageProcess(String sender, String message) throws IOException {
         chatFieldAddMessage(sender + " -> Мне лично", message);
     }
 
@@ -165,6 +189,26 @@ public class Controller {
     public void changeNameAction(ActionEvent actionEvent) {
         mainChat.changeNameSetNetwork();
         mainChat.getChangeUserNameDialog().showAndWait();
+    }
+
+    /* формируем текст чата из эррэй листа считанного из файла */
+
+    public void addHistoryToChat(ArrayList<String> messageList) {
+        for (String line: messageList) {
+            chatField.appendText(line + System.lineSeparator());
+        }
+    }
+
+    /* дописываем строки в файл при добавлении в чат */
+
+    private void appendHistoryToFile(String messageLine) {
+        try {
+           mainChat.writeData.write(messageLine.getBytes());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
 
