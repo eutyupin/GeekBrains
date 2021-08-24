@@ -84,7 +84,6 @@ public class ClientHandler {
                     server.subscribe(this);
                     return;
                 }
-
             }
     }
     /* таймаут отключения от сервера юзера, который не залогинился */
@@ -110,6 +109,7 @@ public class ClientHandler {
     }
 
     private void readMessages() throws IOException, ClassNotFoundException {
+
         while (true) {
             command = readCommand();
             if (command == null) continue;
@@ -125,8 +125,8 @@ public class ClientHandler {
                 case CHANGE_USER_NAME: {
                     ChangeUserNameCommand data = (ChangeUserNameCommand) command.getData();
                     Command answer = server.getAuthService().changeUserName(data.getOldUserName(),data.getNewUserName());
-                    server.sendCommand(this, answer);
-                }
+                    outputStream.writeObject(answer);
+                    break; }
             }
         }
     }

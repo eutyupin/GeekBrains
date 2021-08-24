@@ -1,6 +1,8 @@
 package ru.gb.java2.chat.client;
 
 import ru.gb.java2.chat.clientserver.Command;
+import ru.gb.java2.chat.clientserver.commands.CommandType;
+
 import java.io.*;
 import java.net.Socket;
 import java.util.function.Consumer;
@@ -80,6 +82,7 @@ public class Network {
         Command command = null;
         try {
             command = (Command) socketInput.readObject();
+//            System.out.println("Command has read: " + command.getType());
         } catch (ClassNotFoundException e) {
             System.err.println("Failed to read command class");
             e.printStackTrace();
@@ -100,5 +103,9 @@ public class Network {
     }
     public void setMainChat(MainChat mainChat) {
         this.mainChat = mainChat;
+    }
+
+    public void sendChangeUsernameCommand(String currentUserName, String newUsername) throws IOException {
+        sendCommand(Command.changeNameCommand(currentUserName, newUsername));
     }
 }

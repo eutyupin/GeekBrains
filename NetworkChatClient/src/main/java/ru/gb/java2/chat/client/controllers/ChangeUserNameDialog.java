@@ -25,8 +25,12 @@ public class ChangeUserNameDialog {
     private MainChat mainChat;
     private Network network;
 
-    public void okAction(ActionEvent actionEvent) throws IOException {
-        network.sendCommand(Command.changeUserNameCommand(mainChat.getCurrentUserName(),userNameField.getText()));
+    public void okAction(ActionEvent actionEvent) {
+        try {
+            network.sendChangeUsernameCommand(mainChat.getCurrentUserName(),userNameField.getText());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setNetwork(Network network) {
@@ -50,6 +54,7 @@ public class ChangeUserNameDialog {
             Thread.currentThread().interrupt();
             Platform.runLater(() -> {
                 showStatusDialog(data.getFlag(), data.getMessage());
+                mainChat.getChangeUserNameDialog().close();
             });
         }
     }

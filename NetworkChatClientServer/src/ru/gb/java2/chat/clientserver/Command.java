@@ -9,7 +9,6 @@ public class Command implements Serializable {
     private Object data;
     private CommandType type;
 
-
     public static Command authCommand(String login, String password) {
         Command command = new Command();
         command.data = new AuthCommandData(login, password);
@@ -59,7 +58,7 @@ public class Command implements Serializable {
         return command;
     }
 
-    public static Command changeUserNameCommand(String oldUsername, String newUsername) {
+    public static Command changeNameCommand(String oldUsername, String newUsername) {
         Command command = new Command();
         command.type = CommandType.CHANGE_USER_NAME;
         command.data = new ChangeUserNameCommand(oldUsername, newUsername);

@@ -1,6 +1,8 @@
 package ru.gb.java2.chat.clientserver.commands;
 
-public enum CommandType {
+import java.io.Serializable;
+
+public enum CommandType implements Serializable {
     AUTH,
     AUTH_OK,
     ERROR,

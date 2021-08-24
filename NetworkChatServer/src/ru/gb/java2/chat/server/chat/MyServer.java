@@ -37,10 +37,6 @@ public class MyServer {
         }
     }
 
-    public void sendCommand(ClientHandler client, Command command) {
-
-    }
-
     private void waitAndProcessNewClientConnection(ServerSocket serverSocket) throws IOException {
         System.out.println("Waiting for new client connection...");
         Socket clientSocket =  serverSocket.accept();
