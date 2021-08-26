@@ -5,6 +5,8 @@ import ru.gb.java2.chat.clientserver.commands.CommandType;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
 public class Network {
@@ -18,6 +20,7 @@ public class Network {
     private ObjectInputStream socketInput;
     private ObjectOutputStream socketOutput;
     private MainChat mainChat;
+    public ExecutorService esClient = Executors.newSingleThreadExecutor();
 
     public Network(String host, int port) {
         this.host = "localhost";
@@ -59,7 +62,7 @@ public class Network {
     }
 
     public void waitMessages(Consumer<Command> messageHandler){
-        Thread thread = new Thread(() -> {
+        esClient.execute(new Thread(() -> {
             while (true) {
                 try {
                     if (Thread.currentThread().isInterrupted()) {
@@ -73,9 +76,7 @@ public class Network {
                     break;
                 }
             }
-        });
-        thread.setDaemon(true);
-        thread.start();
+        }));
     }
 
     private Command readCommand () throws IOException{
