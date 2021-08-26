@@ -76,6 +76,7 @@ public class MyServer {
     }
     public synchronized void unsubscribe(ClientHandler clientHandler) throws IOException {
         clients.remove(clientHandler);
+        clientHandler.esServer.shutdown();
         sendUserList();
     }
 
