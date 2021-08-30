@@ -216,6 +216,7 @@ public class MainChat extends Application {
             public void handle(WindowEvent we) {
                 try {
                     writeData.close();
+                    network.esClient.shutdown();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

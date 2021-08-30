@@ -7,6 +7,8 @@ import java.io.*;
 import java.net.Socket;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class ClientHandler {
@@ -22,6 +24,7 @@ public class ClientHandler {
     private String password;
     private Command command;
     private boolean userIsAuthorized = false;
+    public ExecutorService esServer = Executors.newSingleThreadExecutor();
 
     public ClientHandler(MyServer server, Socket clientSocket) {
         this.server = server;
@@ -31,7 +34,8 @@ public class ClientHandler {
     public void handle() throws IOException{
         inputStream = new ObjectInputStream(clientSocket.getInputStream());
         outputStream = new ObjectOutputStream(clientSocket.getOutputStream());
-        new Thread(() -> {
+
+        esServer.execute(new Thread(() -> {
             try {
                 waitUserAuthorization(TIMEOUT_USER_AUTHORIZATION_SECONDS);
                 authentication();
@@ -45,7 +49,7 @@ public class ClientHandler {
                     System.err.println("Failed to close connection");
                 }
             }
-        }).start();
+        }));
     }
 
     private Command readCommand () throws IOException{
