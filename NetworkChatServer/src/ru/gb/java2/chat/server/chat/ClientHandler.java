@@ -41,12 +41,12 @@ public class ClientHandler {
                 authentication();
                 readMessages();
             } catch (IOException | ClassNotFoundException e) {
-                System.err.println("Failed process message from client");
+                server.logger.error("Failed process message from client");
             } finally {
                 try {
                     closeConnection();
                 } catch (IOException e) {
-                    System.err.println("Failed to close connection");
+                    server.logger.error("Failed to close connection");
                 }
             }
         }));
@@ -58,7 +58,7 @@ public class ClientHandler {
             command = (Command) inputStream.readObject();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-            System.err.println("Failed to read command class");
+            server.logger.error("Failed to read command class");
         }
         return command;
     }
@@ -80,8 +80,10 @@ public class ClientHandler {
                 userName = server.getAuthService().getUserNameByLoginAndPassword(login, password);
                 if (userName == null || userName == "") {
                     sendCommand(Command.errorCommand(USER_ERROR_COMMAND));
+                    server.logger.error(USER_ERROR_COMMAND);
                 } else if(userAlreadyExist(userName)) {
                     sendCommand(Command.errorCommand(USER_ALREADY_EXIST));
+                    server.logger.error(USER_ALREADY_EXIST);
                 } else {
                     sendCommand(Command.authOKCommand(userName));
                     userIsAuthorized = true;

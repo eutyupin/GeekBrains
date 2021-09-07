@@ -2,27 +2,31 @@ package ru.gb.java2.chat.server.chat;
 
 import ru.gb.java2.chat.clientserver.Command;
 import ru.gb.java2.chat.clientserver.commands.Flag;
+import ru.gb.java2.chat.server.ServerApp;
 import ru.gb.java2.chat.server.chat.auth.AuthService;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MyServer {
     private List<ClientHandler> clients = new ArrayList<>();
     private AuthService authService;
+    public Logger logger = LoggerFactory.getLogger(ServerApp.class);
 
     public void start(int port) {
         try (ServerSocket serverSocket = new ServerSocket(port)){
-            System.out.println("Server has been started");
+            logger.info("Server has been started");
             authService = new AuthService();
             while (true) {
                 waitAndProcessNewClientConnection(serverSocket);
             }
 
         }catch (IOException e) {
-            System.err.println("Failed to bind port" + port);
+            logger.error("Failed to bind port" + port);
             e.printStackTrace();
         }
     }
@@ -38,9 +42,9 @@ public class MyServer {
     }
 
     private void waitAndProcessNewClientConnection(ServerSocket serverSocket) throws IOException {
-        System.out.println("Waiting for new client connection...");
+        logger.info("Waiting for new client connection...");
         Socket clientSocket =  serverSocket.accept();
-        System.out.println("Client has been connected");
+        logger.info("Client has been connected");
         ClientHandler clientHandler = new ClientHandler(this, clientSocket);
         clientHandler.handle();
     }
@@ -49,6 +53,7 @@ public class MyServer {
         for (ClientHandler client : clients) {
             if (client != sender) {
                 client.sendCommand(Command.clientMessageCommand(Flag.ALL, sender.getUserName(),message));
+                logger.info("Client " + sender.getUserName() + " send message to all users");
             }
         }
     }
@@ -57,6 +62,7 @@ public class MyServer {
         for (ClientHandler client : clients) {
             if (client.getUserName().equals(receiver)) {
                 client.sendCommand(Command.clientMessageCommand(Flag.PRIVATE, sender.getUserName(), message));
+                logger.info("Client " + sender.getUserName() + " send private message to " + receiver);
             }
         }
     }
@@ -71,12 +77,14 @@ public class MyServer {
 
     public synchronized void subscribe(ClientHandler clientHandler) throws IOException {
         clients.add(clientHandler);
+        logger.info("Client " + clientHandler.getUserName() + " was subscribed to server");
         sendUserList();
 
     }
     public synchronized void unsubscribe(ClientHandler clientHandler) throws IOException {
         clients.remove(clientHandler);
         clientHandler.esServer.shutdown();
+        logger.info("Client " + clientHandler.getUserName() + " was unsubscribed from server");
         sendUserList();
     }
 
