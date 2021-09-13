@@ -4,9 +4,11 @@ import ru.geekbrains.java3.lesson7.annotations.AfterSuite;
 import ru.geekbrains.java3.lesson7.annotations.BeforeSuite;
 import ru.geekbrains.java3.lesson7.annotations.Test;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+//import java.lang.reflect.;
+
 import java.util.*;
 
 public class TesterApp {
@@ -16,26 +18,16 @@ public class TesterApp {
         runClassMethods(currentClass);
     }
 
-    private static int checkBeforeSuite(Method[] methods) {
+    private static int checkSuite(Method[] methods, Class annotationClass) {
         int count = 0;
         for (Method method : methods) {
-            if (method.isAnnotationPresent(BeforeSuite.class)) {
+            if (method.isAnnotationPresent(annotationClass)) {
                     count++;
             }
-
         }
         return count;
     }
 
-    private static int checkAfterSuite(Method[] methods) {
-        int count = 0;
-        for (Method method : methods) {
-            if (method.isAnnotationPresent(AfterSuite.class)) {
-                count++;
-            }
-        }
-        return count;
-    }
     private static void runClassMethods(Class<?> currentClass) {
         try {
             runMethods(currentClass);
@@ -68,7 +60,6 @@ public class TesterApp {
                 if (classInstance != null) method.invoke(classInstance);
             }
         }
-
     }
 
     private static ArrayList<Method> sortMethods(Method[] methods) {
@@ -88,7 +79,7 @@ public class TesterApp {
     }
 
     private static void checkSuiteCounts(Method[] methods) {
-            if (checkBeforeSuite(methods) > 1) throw new RuntimeException("More than 1 BeforeSuite annotation");
-            if (checkAfterSuite(methods) > 1) throw new RuntimeException("More than 1 AfterSuite annotation");
+            if (checkSuite(methods, BeforeSuite.class) > 1) throw new RuntimeException("More than 1 BeforeSuite annotation");
+            if (checkSuite(methods, AfterSuite.class) > 1) throw new RuntimeException("More than 1 AfterSuite annotation");
     }
 }
